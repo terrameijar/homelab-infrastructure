@@ -1,0 +1,18 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: monitoring
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  url: https://github.com/terrameijar/homelab
+  ignore: |
+    # Exclude all
+    /*
+    # include the monitoring directory
+    !/applications/monitoring
+    # Exclude non kubernetes YAMLs
+    /applications/monitoring**.yamllint.yaml

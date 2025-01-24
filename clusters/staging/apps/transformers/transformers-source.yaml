@@ -1,0 +1,18 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: transformers
+  namespace: flux-system
+spec:
+  interval: 1m0s
+  ref:
+    branch: main
+  url: https://github.com/terrameijar/transformers
+  ignore: |
+    # Exclude all
+    /*
+    # include the k8s directory
+    !/k8s
+    # Exclude non kubernetes YAMLs
+    /k8s/**.yamllint.yaml
