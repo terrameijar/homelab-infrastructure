@@ -1,7 +1,7 @@
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
-  name: ip-addresspool-prod-cluster
+  name: ip-addresspool-staging-cluster
   namespace: metallb-system
 spec:
   addresses:
@@ -15,4 +15,4 @@ metadata:
   namespace: metallb-system
 spec:
   ipAddressPools:
-  - ip-addresspool-prod-cluster
+  - ip-addresspool-staging-cluster
