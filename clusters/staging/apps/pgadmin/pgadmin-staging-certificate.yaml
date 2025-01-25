@@ -1,5 +1,5 @@
 apiVersion: cert-manager.io/v1
-kind: Certificate:
+kind: Certificate
 metadata:
   name: pgadmin-tls
   namespace: cert-manager
