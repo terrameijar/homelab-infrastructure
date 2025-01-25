@@ -9,4 +9,4 @@ spec:
     name: letsencrypt-staging
     kind: ClusterIssuer
   dnsNames:
-    - 'pgadmin-staging.vndprojects.com'
+    - 'staging-pgadmin.vndprojects.com'
