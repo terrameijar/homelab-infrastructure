@@ -4,7 +4,7 @@ metadata:
   name: pgadmin-tls
   namespace: cert-manager
 spec:
-  secretName: pgadmin-cert-tls
+  secretName: pgadmin-staging-cert-tls-secret
   issuerRef:
     name: letsencrypt-staging
     kind: ClusterIssuer

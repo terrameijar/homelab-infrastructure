@@ -59,7 +59,7 @@ spec:
   tls:
     - hosts:
       - staging-pgadmin.vndprojects.com
-      secretName: staging-pgadmin-tls-secret
+      secretName: pgadmin-staging-cert-tls-secret
     
   rules:
     - host: staging-pgadmin.vndprojects.com
