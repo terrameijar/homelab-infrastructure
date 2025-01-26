@@ -53,13 +53,13 @@ metadata:
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
       - staging-pgadmin.vndprojects.com
-      secretName: pgadmin-staging-cert-tls-secret
+      secretName: pgadmin-prod-cert-tls-secret
     
   rules:
     - host: staging-pgadmin.vndprojects.com
