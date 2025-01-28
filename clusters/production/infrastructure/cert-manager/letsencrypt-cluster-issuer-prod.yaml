@@ -14,8 +14,8 @@ spec:
         route53:
           region: us-east-1
           accessKeyIDSecretRef:
-            name: prod-aws-ssm-secret
+            name: route53-credentials-secret
             key: access-key
           secretAccessKeySecretRef:
-            name: prod-aws-ssm-secret
+            name: route53-credentials-secret
             key: secret-access-key
