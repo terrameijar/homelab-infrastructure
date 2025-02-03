@@ -9,3 +9,5 @@ spec:
   ref:
     branch: main
   url: https://github.com/terrameijar/homelab
+  secretRef:
+    name: flux-github-secret
