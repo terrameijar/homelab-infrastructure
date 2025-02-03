@@ -5,7 +5,7 @@ metadata:
   name: metallb
   namespace: flux-system
 spec:
-  interval: 2m0s
+  interval: 1m0s
   ref:
     branch: main
   url: ssh://git@github.com/terrameijar/homelab.git
