@@ -11,7 +11,7 @@ The purpose of this homelab is to learn and have fun in an environment I have fu
 I have a few principles guiding my approach to building this homelab:
 
 - I use hardware that is power efficient where possible.
-- I'm currently AWS-focused so I try to leverage AWS solutions where possible in the cluster. For example, I use AWS Route 53 to manage DNS and AWS Parameter store to store secrets.
+- I'm currently AWS-focused so I try to leverage AWS solutions where possible in the cluster. For example, I use AWS Route 53 to manage DNS and AWS Parameter Store to store secrets.
 - When deploying self-hosted tools, I opt for free or open source ones that give me full control of my data.
 - Everything in the cluster is deployed through Infrastructure as Code or GitOps.
 - I aim to adopt best practices in deployment and security.
@@ -38,7 +38,7 @@ Passwords, secrets and API keys are stored in AWS Systems Manager Paramter Store
 
 ## Repo Structure
 
-I'm working on following the Flux CD recommended directory structure, I'm not entirely there but close to it. Cluster configuration is in the `clusters` directory. This directory contains YAML files for both the `staging` and `production` clusters. Any code pushed to these directories is automatically deployed and applied by Flux CD to the respective cluster.
+I'm working on following the Flux CD recommended directory structure, I'm not entirely there but close to it. Cluster configuration is in the `clusters` directory that contains YAML files for both the `staging` and `production` clusters. Any code pushed to these directories is automatically deployed and applied by Flux CD to the respective cluster.
 
 Each of the cluster directories has a number of sub-directories:
 
