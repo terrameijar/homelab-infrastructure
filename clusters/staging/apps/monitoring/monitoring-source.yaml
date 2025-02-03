@@ -9,6 +9,8 @@ spec:
   ref:
     branch: main
   url: ssh://git@github.com/terrameijar/homelab.git
+  secretRef:
+    name: flux-github-secret
   ignore: |
     # Exclude all
     /*
