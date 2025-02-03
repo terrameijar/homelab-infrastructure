@@ -85,7 +85,7 @@ This policy allows trusted user accounts to add, list and delete secrets that ma
         "ssm:GetParameter",
         "ssm:DeleteParameters"
       ],
-      "Resource": "arn:aws:ssm:eu-west-1:12345678901:parameter/path/to/secert/*"
+      "Resource": "arn:aws:ssm:eu-west-1:12345678901:parameter/path/to/secret/*"
     },
     {
       "Effect": "Allow",
