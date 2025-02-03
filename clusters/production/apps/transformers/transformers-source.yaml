@@ -8,4 +8,6 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-  url: https://github.com/terrameijar/homelab
+  url: ssh://git@github.com/terrameijar/homelab.git
+  secretRef:
+    name: flux-github-secret
