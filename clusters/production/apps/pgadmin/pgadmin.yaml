@@ -1,8 +1,8 @@
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: pgadmin-deployment
+  name: pgadmin
   namespace: default
 spec:
   replicas: 1
@@ -14,11 +14,23 @@ spec:
       labels:
         app: pgadmin
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/storage
+                    operator: In
+                    values:
+                      - "true"
       containers:
         - name: pgadmin
           image: dpage/pgadmin4
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: pgadmin-data
+              mountPath: /var/lib/pgadmin
           env:
             - name: PGADMIN_DEFAULT_EMAIL
               valueFrom:
@@ -31,6 +43,16 @@ spec:
                 secretKeyRef:
                   name: pgadmin-secret
                   key: PGADMIN_DEFAULT_PASSWORD
+  volumeClaimTemplates:
+    - metadata:
+        name: pgadmin-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+
 ---
 apiVersion: v1
 kind: Service
@@ -72,3 +94,26 @@ spec:
                 name: pgadmin-service
                 port:
                   number: 80
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pgadmin-pv
+spec:
+  capacity:
+    storage: 1Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /data/pgadmin
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+          key: node-role.kubernetes.io/storage
+          operator: In
+          values:
+            - "true"
