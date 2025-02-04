@@ -34,7 +34,7 @@ The staging cluster runs on Ubuntu VMs in a Hyper-V Host
 
 ## Secrets
 
-Passwords, secrets and API keys are stored in AWS Systems Manager Paramter Store.
+Passwords, secrets and API keys are stored in AWS Systems Manager Parameter Store.
 
 ## Repo Structure
 
