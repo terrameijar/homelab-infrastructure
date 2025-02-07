@@ -343,6 +343,8 @@ metadata:
     app.kubernetes.io/version: 1.12.0
   name: ingress-nginx-controller
   namespace: ingress-nginx
+  annotations:
+    metallb.universe.tf/address-pool: ip-addresspool-prod-cluster
 spec:
   ipFamilies:
   - IPv4
