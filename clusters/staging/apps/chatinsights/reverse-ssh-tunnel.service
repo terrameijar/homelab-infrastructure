@@ -1,0 +1,22 @@
+[Unit]
+Description= Service to maintain an SSH reverse tunnel
+Wants=network-online.target
+After=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+User=${SSH_TUNNEL_USER}
+Type=simple
+ExecStart=/usr/bin/ssh -qNn \
+	-o ServerAliveInterval=30 \
+	-o ServerAliveCountMax=3 \
+	-o ExitOnForwardFailure=yes \
+	-o StrictHostKeyChecking=yes \
+	-i ${SSH_KEY_PATH} \
+	-R {SSH_LOCAL_PORT}:${SSH_LOCAL_HOST}:80 \
+	${SSH_REMOTE_USER}@${SSH_REMOTE_HOST} 2>&1 | logger -t ssh-tunnel
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
