@@ -21,6 +21,8 @@ I have a few principles guiding my approach to building this homelab:
 My homelab has two Kubernetes clusters; a staging cluster made up of virtual machines and a production cluster that runs on physical hardware.
 I use power-efficient and low cost devices like laptops and Raspberry Pis whenever possible. All servers run on Ubuntu Linux and I use K3s, a lightweight version of Kubernetes that is designed to run on low-resource environments.
 
+![Architecture](docs/Homelab-Architecture.png)
+
 ### Hardware
 
 The production cluster runs on physical hardware:
