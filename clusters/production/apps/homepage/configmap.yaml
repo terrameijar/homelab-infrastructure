@@ -1,0 +1,135 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: homepage
+  namespace: default
+  labels:
+    app.kubernetes.io/name: homepage
+data:
+  kubernetes.yaml: |
+    mode: cluster
+  settings.yaml: |
+    title: Vuyisile's HomePage - Prod
+
+    background:
+      image: https://cdnb.artstation.com/p/assets/images/images/006/897/659/large/mikael-gustafsson-wallpaper-mikael-gustafsson.jpg
+      blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
+      saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+      brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+      opacity: 100 # 0-100
+
+    theme: dark
+    color: slate
+
+    useEqualHeights: true
+
+    layout:
+      Top Services:
+        header: true
+        style: row
+        columns: 2
+
+  #settings.yaml: |
+  #  providers:
+  #    longhorn:
+  #      url: https://longhorn.my.network
+  custom.css: ""
+  custom.js: ""
+  bookmarks.yaml: |
+    - Links:
+        - Github:
+            - abbr: GH
+              href: https://github.com/terrameijar
+        - LinkedIn:
+            - abbr: LN
+              href: https://www.linkedin.com/in/vuyisile-ndlovu-080b3891/
+  services.yaml: |
+    - Monitoring:
+        - Grafana:
+            href: https://grafana.ndlovucloud.co.zw
+            description: Grafana
+            icon: grafana.svg
+            # siteMonitor: https://grafana.ndlovucloud.co.zw
+            ping: https://grafana.ndlovucloud.co.zw
+            statusStyle: basic
+            # widget:
+            #   type: grafana
+            #   url: https://grafana.ndlovucloud.co.zw
+            #   username: "{{HOMEPAGE_VAR_GRAFANA_USERNAME}}"
+            #   password: "{{HOMEPAGE_VAR_GRAFANA_PASSWORD}}"
+
+
+
+    - Databases:
+        - PgAdmin:
+            href: https://pgadmin.vndprojects.com/
+            description: Prod PgAdmin
+            icon: pgadmin.png
+
+    - Apps:
+
+        - Transformers:
+            href: http://transformers.vuyisile.lan
+            description: Transformers Database
+            icon: http://transformers.vuyisile.lan/static/favicon.svg
+            ping: https://chatinsights.app
+            statusStyle: basic
+
+
+        - Chat Insights:
+            href: http://chatinsights.app
+            ping: https://chatinsights.app
+            statusStyle: basic
+
+    - Top Services:
+        - Cockpit:
+            icon: cockpit.png
+            href: "{{HOMEPAGE_VAR_COCKPIT_HOSTNAME}}"
+            ping: "{{HOMEPAGE_VAR_COCKPIT_PING_IP}}"
+            statusStyle: basic
+        - Coolify:
+            icon: coolify.svg
+            href: "{{HOMEPAGE_VAR_COOLIFY_HOSTNAME}}"
+            ping: "{{HOMEPAGE_VAR_COOLIFY_PING_IP}}"
+            statusStyle: basic
+        - CUPS Print Server:
+            icon: cups.svg
+            href: "{{HOMEPAGE_VAR_CUPS_PRINT_SERVER_HOSTNAME}}"
+        - SANE Scan Server:
+            href: "{{HOMEPAGE_VAR_SANE_SCAN_SERVER_HOSTNAME}}"
+            icon: https://raw.githubusercontent.com/sbs20/scanservjs/refs/heads/master/app-ui/favicon.ico
+
+
+
+    - Staging Services:
+          - Staging K8s Portainer:
+              icon: portainer.png
+              href: https://portainer.vndprojects.com
+
+  widgets.yaml: |
+    - kubernetes:
+        cluster:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+          label: "cluster"
+        nodes:
+          show: true
+          cpu: true
+          memory: true
+          showLabel: true
+    - resources:
+        backend: resources
+        expanded: true
+        cpu: true
+        memory: true
+        network: default
+    - search:
+        provider: duckduckgo
+        target: _blank
+    - datetime:
+        text_size: x1
+        format:
+          timeStyle: short
+  docker.yaml: ""
