@@ -55,8 +55,8 @@ data:
             # widget:
             #   type: grafana
             #   url: https://grafana.ndlovucloud.co.zw
-            #   username: 
-            #   password: 
+            #   username: "{{HOMEPAGE_VAR_GRAFANA_USERNAME}}"
+            #   password: "{{HOMEPAGE_VAR_GRAFANA_PASSWORD}}"
 
 
 
@@ -84,19 +84,19 @@ data:
     - Top Services:
         - Cockpit:
             icon: cockpit.png
-            href: http://192.168.100.32:9090
-            ping: 192.168.100.32
+            href: "{{HOMEPAGE_VAR_COCKPIT_HOSTNAME}}"
+            ping: "{{HOMEPAGE_VAR_COCKPIT_PING_IP}}"
             statusStyle: basic
         - Coolify:
             icon: coolify.svg
-            href: http://192.168.100.98:8000
-            ping: 192.168.100.98
+            href: "{{HOMEPAGE_VAR_COOLIFY_HOSTNAME}}"
+            ping: "{{HOMEPAGE_VAR_COOLIFY_PING_IP}}"
             statusStyle: basic
         - CUPS Print Server:
             icon: cups.svg
-            href: http://cups.vuyisile.lan
+            href: "{{HOMEPAGE_VAR_CUPS_PRINT_SERVER_HOSTNAME}}"
         - SANE Scan Server:
-            href: http://scanner.vuyisile.lan/
+            href: "{{HOMEPAGE_VAR_SANE_SCAN_SERVER_HOSTNAME}}"
             icon: https://raw.githubusercontent.com/sbs20/scanservjs/refs/heads/master/app-ui/favicon.ico
 
 
