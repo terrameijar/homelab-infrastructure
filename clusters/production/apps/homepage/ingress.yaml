@@ -14,7 +14,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: "homepage.my.network"
+    - host: "homepage.ndlovucloud.co.zw"
       http:
         paths:
           - path: "/"
