@@ -2,7 +2,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
-  name: chatinsights
+  name: chat-insights
   namespace: flux-system
 spec:
   interval: 1m0s
