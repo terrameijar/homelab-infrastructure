@@ -12,6 +12,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: chatinsights
-  targetNamespace: chatinsights
+  targetNamespace: chat-insights
   timeout: 3m0s
   wait: true
