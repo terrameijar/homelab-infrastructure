@@ -15,4 +15,15 @@ spec:
   targetNamespace: chat-insights
   timeout: 3m0s
   wait: true
+  patches:
+    - patch: |-
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: chat-insights
+          namespace: chat-insights
+        spec:
+          replicas: 3
+
+
 
