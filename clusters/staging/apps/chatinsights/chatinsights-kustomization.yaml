@@ -23,7 +23,13 @@ spec:
           name: chat-insights
           namespace: chat-insights
         spec:
-          replicas: 3
+          replicas: 1
+          template:
+            spec:
+              containers:
+              - name: chat-insights
+                imagePullPolicy: IfNotPresent
+
 
 
 
