@@ -1,0 +1,157 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wallabag
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wallabag-configmap
+  namespace: default
+data:
+  SYMFONY__ENV__DATABASE_PORT: "5432"
+  SYMFONY__ENV__DATABASE_DRIVER: pdo_pgsql
+  SYMFONY__ENV__DATABASE_NAME: wallabag
+  SYMFONY__ENV__DATABASE_HOST: wallabag-db
+  SYMFONY__ENV__DOMAIN_NAME: "https://staging-wallabag.ndlovucloud.co.zw"
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: wallabag-ingress
+    namespace: default
+    annotations:
+      gethomepage.dev/description: Dynamically Detected Wallabag
+      gethomepage.dev/enabled: "true"
+      gethomepage.dev/group: Cluster Management
+      gethomepage.dev/icon: wallabag.png
+      gethomepage.dev/name: Wallabag
+      nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+      - staging-wallabag.ndlovucloud.co.zw
+      secretName: wallabag-staging-cert-tls-prod
+  rules:
+    - host: staging-wallabag.ndlovucloud.co.zw
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: wallabag
+                port:
+                  number: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wallabag
+  namespace: default
+spec:
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 80
+      name: http
+  selector:
+    app: wallabag
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wallabag
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wallabag
+  template:
+    metadata:
+      labels:
+        app: wallabag
+    spec:
+      containers:
+      - name: wallabag-web
+        image: wallabag/wallabag:2.6.10
+        ports:
+          - containerPort: 80
+            protocol: TCP
+        envFrom:
+          - configMapRef:
+              name: wallabag-configmap
+          - secretRef:
+              name: wallabag-container-env
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wallabag-db
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: wallabag-db
+  serviceName: wallabag-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wallabag-db
+    spec:
+      containers:
+        - name: wallabag-db
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+          - name: postgres-storage
+            mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wallabag-container-env
+                  key: SYMFONY__ENV__DATABASE_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wallabag-container-env
+                  key: SYMFONY__ENV__DATABASE_PASSWORD
+            - name: POSTGRES_DB
+              value: wallabag
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 1Gi
+  ordinals:
+    start: 1
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wallabag-db
+  namespace: default
+spec:
+  ports:
+    - port: 5432
+      targetPort: 5432
+      protocol: TCP
+  selector:
+    app: wallabag-db
+  clusterIP: None

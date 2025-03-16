@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wallabag-tls
+  namespace: cert-manager
+spec:
+  secretName: wallabag-staging-cert-tls-secret
+  issuerRef:
+    name: cloudflare-letsencrypt-staging
+    kind: ClusterIssuer
+  dnsNames:
+    - 'staging-wallabag.ndlovucloud.co.zw'
