@@ -23,21 +23,21 @@ spec:
         kind: HelmRepository
         name: kubernetes-dashboard
         namespace: kubernetes-dashboard
-values:
-    fullnameOverride: kubernetes-dashboard
-    ingress:
-      enabled: true
-      annotations:
-        gethomepage.dev/description: Dynamically Detected Kubernetes Dashboard
-        gethomepage.dev/enabled: "true"
-        gethomepage.dev/group: Cluster Management
-        gethomepage.dev/icon: kubernetes.png
-        gethomepage.dev/name: Kubernetes Dashboard
-        nginx.ingress.kubernetes.io/rewrite-target: /
-      hosts:
-        - host: staging-dashboard.ndlovucloud.co.zw
-          paths:
-            - path: /
-              pathType: Prefix
-    service:
-      type: ClusterIP
+  values:
+      fullnameOverride: kubernetes-dashboard
+      ingress:
+        enabled: true
+        annotations:
+          gethomepage.dev/description: Dynamically Detected Kubernetes Dashboard
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Cluster Management
+          gethomepage.dev/icon: kubernetes.png
+          gethomepage.dev/name: Kubernetes Dashboard
+          nginx.ingress.kubernetes.io/rewrite-target: /
+        hosts:
+          - host: staging-dashboard.ndlovucloud.co.zw
+            paths:
+              - path: /
+                pathType: Prefix
+      service:
+        type: ClusterIP
