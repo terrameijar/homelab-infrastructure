@@ -1,0 +1,43 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  interval: 30m
+  url: https://kubernetes.github.io/dashboard/
+
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: kubernetes-dashboard
+  namespace: kubernetes-dashboard
+spec:
+  interval: 10m
+  chart:
+    spec:
+      chart: kubernetes-dashboard
+      version: '7.11.1'
+      sourceRef:
+        kind: HelmRepository
+        name: kubernetes-dashboard
+        namespace: kubernetes-dashboard
+values:
+    fullnameOverride: kubernetes-dashboard
+    ingress:
+      enabled: true
+      annotations:
+        gethomepage.dev/description: Dynamically Detected Kubernetes Dashboard
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/group: Cluster Management
+        gethomepage.dev/icon: kubernetes.png
+        gethomepage.dev/name: Kubernetes Dashboard
+        nginx.ingress.kubernetes.io/rewrite-target: /
+      hosts:
+        - host: dashboard.vndprojects.com
+          paths:
+            - path: /
+              pathType: Prefix
+    service:
+      type: ClusterIP
