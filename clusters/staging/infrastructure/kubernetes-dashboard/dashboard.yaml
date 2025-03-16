@@ -35,7 +35,7 @@ values:
         gethomepage.dev/name: Kubernetes Dashboard
         nginx.ingress.kubernetes.io/rewrite-target: /
       hosts:
-        - host: dashboard.vndprojects.com
+        - host: staging-dashboard.ndlovucloud.co.zw
           paths:
             - path: /
               pathType: Prefix
