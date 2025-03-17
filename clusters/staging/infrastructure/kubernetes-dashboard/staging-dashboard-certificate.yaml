@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: kubernetes-dashboard-tls
+  namespace: cert-manager
+spec:
+  secretName: staging-kubernetes-dashboard-cert-tls-secret
+  issuerRef:
+    name: cloudflare-letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - 'staging-dashboard.ndlovucloud.co.zw'

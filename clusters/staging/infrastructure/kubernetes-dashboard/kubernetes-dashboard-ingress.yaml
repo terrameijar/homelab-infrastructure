@@ -10,10 +10,12 @@ metadata:
       gethomepage.dev/group: Cluster Management
       gethomepage.dev/icon: kubernetes.png
       gethomepage.dev/name: Kubernetes Dashboard
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      nginx.ingress.kubernetes.io/ssl-passthrough: "true"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - staging-dashboard.ndlovucloud.co.zw
+      secretName: staging-kubernetes-dashboard-cert-tls-secret
   rules:
     - host: staging-dashboard.ndlovucloud.co.zw
       http:
@@ -22,6 +24,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: kubernetes-dashboard-web
+                name: kubernetes-dashboard-kong-proxy
                 port:
-                  number: 8000
+                  number: 443
