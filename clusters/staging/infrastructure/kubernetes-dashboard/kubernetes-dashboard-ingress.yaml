@@ -10,6 +10,8 @@ metadata:
       gethomepage.dev/group: Cluster Management
       gethomepage.dev/icon: kubernetes.png
       gethomepage.dev/name: Kubernetes Dashboard
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/ssl-redirect: "true
 spec:
   ingressClassName: nginx
   tls:
