@@ -14,10 +14,6 @@ metadata:
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - staging-dashboard.ndlovucloud.co.zw
-      secretName: staging-kubernetes-dashboard-cert-tls-secret
   rules:
     - host: staging-dashboard.ndlovucloud.co.zw
       http:
