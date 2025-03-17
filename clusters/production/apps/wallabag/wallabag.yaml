@@ -29,7 +29,7 @@ spec:
   tls:
     - hosts:
         - wallabag.ndlovucloud.co.zw
-      secretName: wallabag-cert-tls-prod
+      secretName: wallabag-prod-cert-tls-secret
   rules:
     - host: wallabag.ndlovucloud.co.zw
       http:
