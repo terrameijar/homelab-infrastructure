@@ -26,8 +26,12 @@ spec:
         - name: homepage
           image: "ghcr.io/gethomepage/homepage:v0.10.9"
           resources:
-            memory: 128Mi
-            cpu: 200m
+            requests:
+              memory: 128Mi
+              cpu: 100m
+            limits:
+              memory: 256Mi
+              cpu: 200m
           envFrom:
             - secretRef:
                 name: homepage-env-secret
