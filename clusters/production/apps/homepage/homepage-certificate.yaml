@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: homepage-tls
+  namespace: default
+spec:
+  secretName: homepage-prod-tls-secret
+  issuerRef:
+    name: cloudflare-letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - 'homepage.ndlovucloud.co.zw'

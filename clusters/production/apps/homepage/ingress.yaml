@@ -13,6 +13,10 @@ metadata:
     gethomepage.dev/name: Homepage
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+      - homepage.ndlovucloud.co.zw
+      secretName: homepage-prod-tls-secret
   rules:
     - host: "homepage.ndlovucloud.co.zw"
       http:
