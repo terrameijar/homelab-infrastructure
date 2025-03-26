@@ -15,3 +15,15 @@ spec:
   targetNamespace: monitoring
   timeout: 3m0s
   wait: true
+  patches:
+    - patch: |-
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+           name: grafana.ini
+           namespace: monitoring
+        data:
+           grafana.ini: |-
+             [security]
+             csrf_trusted_origins = staging-grafana.ndlovucloud.co.zw
+             csrf_additional_headers =""
