@@ -337,10 +337,10 @@ data:
       return 403;
     }
 
-        location ~* /(wp-admin|wp-login|\.git|env\.php|debug\.log|composer\.json|yarn\.lock|dockerfile|\.env.*|config\.js|swagger-ui\.html|phpinfo\.php|\.htaccess)$ {
-          deny all;
-          return 403;
-        }
+    location ~* /(wp-admin|wp-login|\.git|env\.php|debug\.log|composer\.json|yarn\.lock|dockerfile|\.env.*|config\.js|swagger-ui\.html|phpinfo\.php|\.htaccess)$ {
+      deny all;
+      return 403;
+    }
 ---
 apiVersion: v1
 kind: Service
