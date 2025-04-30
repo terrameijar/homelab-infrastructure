@@ -320,7 +320,6 @@ subjects:
   namespace: ingress-nginx
 ---
 apiVersion: v1
-data: null
 kind: ConfigMap
 metadata:
   labels:
@@ -331,6 +330,17 @@ metadata:
     app.kubernetes.io/version: 1.12.1
   name: ingress-nginx-controller
   namespace: ingress-nginx
+data:
+  server-snippet: |
+    location ~ /\.(?!well-known).* {
+      deny all;
+      return 403;
+    }
+
+        location ~* /(wp-admin|wp-login|\.git|env\.php|debug\.log|composer\.json|yarn\.lock|dockerfile|\.env.*|config\.js|swagger-ui\.html|phpinfo\.php|\.htaccess)$ {
+          deny all;
+          return 403;
+        }
 ---
 apiVersion: v1
 kind: Service
