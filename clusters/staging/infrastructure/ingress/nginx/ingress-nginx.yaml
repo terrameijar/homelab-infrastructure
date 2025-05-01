@@ -331,9 +331,6 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
-  modsecurity-snippet: |
-    secRuleEngine On
-
   server-snippet: |
     location ~ /\.(?!well-known).* {
       deny all;
@@ -446,8 +443,6 @@ spec:
         - --validating-webhook=:8443
         - --validating-webhook-certificate=/usr/local/certificates/cert
         - --validating-webhook-key=/usr/local/certificates/key
-        - --enable-modsecurity
-        - --enable-owasp-modsecurity-crs
         env:
         - name: POD_NAME
           valueFrom:
