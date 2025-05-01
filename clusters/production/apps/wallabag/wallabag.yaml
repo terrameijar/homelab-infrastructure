@@ -24,11 +24,6 @@ metadata:
     gethomepage.dev/icon: wallabag.png
     gethomepage.dev/name: Wallabag
     nginx.ingress.kubernetes.io/rewrite-target: /$1
-    nginx.ingress.kubernetes.io/enable-modsecurity: "true"
-    nginx.ingress.kubernetes.io/modsecurity-snippet: |
-      SecRuleEngine On
-      SecRequestBodyAccess On
-      SecRule ARGS "@rx (\.\./|\.\.\\)" "id:12345678,phase:2,deny,status:403,msg:'Path traversal attempt detected'"
 spec:
   ingressClassName: nginx
   # tls:
