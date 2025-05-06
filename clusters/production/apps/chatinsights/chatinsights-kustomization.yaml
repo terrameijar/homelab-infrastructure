@@ -33,6 +33,8 @@ spec:
         apiVersion: networking.k8s.io/v1
         kind: Ingress
         metadata:
+          name: chat-insights
+          namespace: chat-insights
           annotations:
             gethomepage.dev/description: Dynamically Detected Chat Insights
             gethomepage.dev/enabled: "true"
