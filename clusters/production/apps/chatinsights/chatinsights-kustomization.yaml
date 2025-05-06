@@ -29,3 +29,13 @@ spec:
               containers:
               - name: chat-insights
                 image: andilejaden/chatinsight:sha-b7ef52e
+    - patch: |-
+        apiVersion: networking.k8s.io/v1
+        kind: Ingress
+        metadata:
+          annotations:
+            gethomepage.dev/description: Dynamically Detected Chat Insights
+            gethomepage.dev/enabled: "true"
+            gethomepage.dev/group: Cluster Management
+            gethomepage.dev/name: Chat Insights
+            nginx.ingress.kubernetes.io/rewrite-target: /$1
