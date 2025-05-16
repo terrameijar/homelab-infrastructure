@@ -16,6 +16,7 @@ spec:
       interval: 10m
   values:
     grafana:
+      adminPassword: SuperSecurePassword
       service:
         type: ClusterIP
       ingress:
