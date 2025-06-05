@@ -23,7 +23,7 @@ spec:
           name: chat-insights
           namespace: chat-insights
         spec:
-          replicas: 1
+          replicas: 2
           template:
             spec:
               containers:
