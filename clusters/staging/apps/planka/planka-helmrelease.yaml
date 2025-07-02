@@ -7,10 +7,10 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: planka
-      version: "0.1.4"
+      chart: charts/planka
+      version: "1.0.3"
       sourceRef:
-        kind: HelmRepository
+        kind: GitRepository
         name: planka
         namespace: flux-system
       interval: 60m
