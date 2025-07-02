@@ -7,7 +7,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: charts/planka
+      chart: planka
       version: "1.0.3"
       sourceRef:
         kind: HelmRepository
