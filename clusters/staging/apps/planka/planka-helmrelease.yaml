@@ -4,7 +4,7 @@ metadata:
   name: planka
   namespace: default
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: planka
