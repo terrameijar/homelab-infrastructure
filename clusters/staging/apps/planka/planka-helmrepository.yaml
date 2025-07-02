@@ -5,4 +5,4 @@ metadata:
   namespace: flux-system
 spec:
   interval: 60m
-  url: https://l33t-sh.github.io/charts
+  url: http://plankanban.github.io/planka
