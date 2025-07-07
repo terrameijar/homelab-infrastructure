@@ -24,12 +24,22 @@ aws ssm put-parameter --name "/K8s/Clusters/Prod/Planka/planka-secretkey" \
 
 - Create or modify the `planka-externalsecret.yaml` referencing the SSM secret you just created
 - Update the `planka-helmrelease.yaml` file with the appropriate domain name for the environment you're deploying to.
+- Set the appropriate TLS issuer in the helmrelease file.
 - Create external secrets for the Planka Postgresql user
 
 ```shell
 export planka_db_username="planka"
 export planka_db_password=$(openssl rand -base64 16)
 export planka_db_name="planka"
+```
+
+- Create external secrets for the admin user
+
+```shell
+aws ssm put-parameter --name "/K8s/Clusters/Prod/Planka/planka-admin" \
+--type "SecureString" \
+--value "{\"admin_email\": \"vuyisilendlovu@gmail.com\", \"admin_password\": \"$(openssl rand -base64 16)\", \"admin_username\": \"vuyisile\", \"admin_name\": \"Vuyisile Ndlovu\"}"
+
 ```
 
 **Create secret in AWS SSM**

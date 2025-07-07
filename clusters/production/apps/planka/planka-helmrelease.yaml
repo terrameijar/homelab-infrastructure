@@ -1,0 +1,101 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: planka
+  namespace: default
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: planka
+      version: "1.0.3"
+      sourceRef:
+        kind: HelmRepository
+        name: planka
+        namespace: flux-system
+      interval: 60m
+  valuesFrom:
+    - kind: Secret
+      name: planka-secret
+      valuesKey: secretkey
+      targetPath: secretkey
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-db-username
+      targetPath: postgresql.auth.username
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-db-password
+      targetPath: postgresql.auth.password
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-db-name
+      targetPath: postgresql.auth.database
+    
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-admin-email
+      targetPath: admin_email
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-admin-password
+      targetPath: admin_password
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-admin-adminname
+      targetPath: admin_name
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-admin-username
+      targetPath: admin_username
+
+  values:
+    base:
+      baseUrl: "https://planka.ndlovucloud.co.zw"
+    ingress:
+      enabled: true
+      className: nginx
+      annotations:
+        cert-manager.io/cluster-issuer: cloudflare-letsencrypt-prod
+        gethomepage.dev/enabled: "true"
+        gethomepage.dev/description: Dynamically Detected Planka
+        gethomepage.dev/group: Cluster Management
+        gethomepage.dev/name: Planka
+      hosts:
+        - host: planka.ndlovucloud.co.zw
+          paths:
+            - path: /
+              pathType: Prefix
+      tls:
+        - hosts:
+            - planka.ndlovucloud.co.zw
+          secretName: planka-tls
+    
+    # Values from planka-secret
+    postgresql:
+      enabled: true
+      # auth:
+      #   username: planka
+      #   password: planka-password
+      #   database: planka
+    redis:
+      enabled: true
+    
+    # Values added via secrets
+
+    # Admin user
+    # admin_email: "demo@demo.email" # Do not remove if you want to prevent this user from being edited/deleted
+    # admin_password: "demo"
+    # admin_name: "Demo User1"
+    # admin_username: "demo"
+
+    persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      size: 2Gi
