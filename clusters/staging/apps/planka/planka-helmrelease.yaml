@@ -19,6 +19,22 @@ spec:
       name: planka-secret
       valuesKey: secretkey
       targetPath: secretkey
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-db-username
+      targetPath: postgresql.auth.username
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-db-password
+      targetPath: postgresql.auth.password
+
+    - kind: Secret
+      name: planka-secret
+      valuesKey: planka-db-name
+      targetPath: postgresql.auth.database
+
   values:
     base:
       baseUrl: "https://planka.vndprojects.com"
@@ -36,13 +52,14 @@ spec:
         - hosts:
             - planka.vndprojects.com
           secretName: planka-tls
-    
+
+    # Values from planka-secret
     postgresql:
       enabled: true
-      auth:
-        username: planka
-        password: planka-password
-        database: planka
+      # auth:
+      #   username: planka
+      #   password: planka-password
+      #   database: planka
     redis:
       enabled: true
     
