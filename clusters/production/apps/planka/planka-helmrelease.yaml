@@ -56,6 +56,7 @@ spec:
       targetPath: admin_username
 
   values:
+    replicaCount: 1
     base:
       baseUrl: "https://planka.ndlovucloud.co.zw"
     ingress:
