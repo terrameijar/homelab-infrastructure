@@ -23,9 +23,18 @@ spec:
           name: chat-insights
           namespace: chat-insights
         spec:
-          replicas: 2
+          replicas: 1
           template:
             spec:
+              affinity:
+                nodeAffinity:
+                  requiredDuringSchedulingIgnoredDuringExecution:
+                    nodeSelectorTerms:
+                      - matchExpressions:
+                          - key: kubernetes.io/hostname
+                            operator: In
+                            values:
+                              - media-center
               containers:
               - name: chat-insights
                 imagePullPolicy: IfNotPresent
