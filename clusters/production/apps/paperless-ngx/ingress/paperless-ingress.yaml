@@ -6,6 +6,7 @@ metadata:
   namespace: default
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/proxy-body-size: 10m        # Max upload size is 10MB
 spec:
   ingressClassName: nginx
   rules:
