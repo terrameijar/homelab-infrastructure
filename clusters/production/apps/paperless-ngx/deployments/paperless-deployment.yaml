@@ -32,10 +32,10 @@ spec:
           resources:
             requests:
               memory: "512Mi"
-              cpu: "250m"
+              cpu: "500m"
             limits:
               memory: "1024Mi"
-              cpu: "500m"
+              cpu: "1500m"
           env:
             - name: PAPERLESS_DBHOST
               value: paperless-postgres-svc
