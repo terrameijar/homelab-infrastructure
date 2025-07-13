@@ -7,6 +7,10 @@ metadata:
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/proxy-body-size: 10m        # Max upload size is 10MB
+    gethomepage.dev/description: Paperless-ngx
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Apps
+    gethomepage.dev/name: Paperless-ngx
 spec:
   ingressClassName: nginx
   rules:
