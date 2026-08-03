@@ -62,12 +62,6 @@ spec:
         - name: nfs-provisioner
           image: quay.io/external_storage/nfs-client-provisioner:latest
           imagePullPolicy: IfNotPresent
-          args:
-            - "--provisioner=ndlovucloud.co.zw/nfs"
-            - "--nfs-server=192.168.100.2"
-            - "--nfs-path=/mnt/HDD/k8s-nfs"
-            - "--uid=65534"
-            - "--gid=65534"
           env:
             - name: PROVISIONER_NAME
               value: ndlovucloud.co.zw/nfs
