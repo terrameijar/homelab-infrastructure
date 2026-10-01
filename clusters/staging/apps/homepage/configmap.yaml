@@ -62,7 +62,7 @@ data:
 
     - Databases:
         - PgAdmin:
-            href: https://pgadmin.vndprojects.com/
+            href: https://pgadmin.ndlovucloud.co.zw/
             description: Prod PgAdmin
             icon: pgadmin.png
 

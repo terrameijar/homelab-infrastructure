@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: pgadmin-prod-cert-tls-secret
   issuerRef:
-    name: letsencrypt-prod
+    name: cloudflare-letsencrypt-prod
     kind: ClusterIssuer
   dnsNames:
-    - 'pgadmin.vndprojects.com'
+    - 'pgadmin.ndlovucloud.co.zw'

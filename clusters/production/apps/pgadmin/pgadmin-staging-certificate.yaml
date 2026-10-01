@@ -6,7 +6,7 @@ metadata:
 spec:
   secretName: pgadmin-staging-cert-tls-secret
   issuerRef:
-    name: letsencrypt-staging
+    name: cloudflare-letsencrypt-staging
     kind: ClusterIssuer
   dnsNames:
-    - 'pgadmin.vndprojects.com'
+    - 'pgadmin.ndlovucloud.co.zw'
