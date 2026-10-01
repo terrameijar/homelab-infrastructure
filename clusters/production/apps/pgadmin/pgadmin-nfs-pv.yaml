@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pgadmin-nfs-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  mountOptions:
+    - "vers=4.1"
+    - "timeo=600"
+    - "retrans=2"
+  storageClassName: nfs
+  nfs:
+    server: 192.168.100.2
+    path: /mnt/HDD/k8s-nfs
