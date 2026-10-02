@@ -71,7 +71,7 @@ spec:
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_HOSTNAME
-              value: "https://auth.ndlovucloud.co.zw"
+              value: "auth.ndlovucloud.co.zw"
             - name: KC_HOSTNAME_STRICT
               value: "true"
             - name: KC_HEALTH_ENABLED
