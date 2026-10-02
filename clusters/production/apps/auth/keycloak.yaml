@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: keycloak
+  namespace: default
   labels:
     app: keycloak
 spec:
@@ -20,6 +21,7 @@ metadata:
   labels:
     app: keycloak
   name: postgres-headless
+  namespace: default
 spec:
   clusterIP: None
   selector:
@@ -35,6 +37,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: keycloak
+  namespace: default
   labels:
     app: keycloak
 spec:
@@ -117,6 +120,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
+  namespace: default
   labels:
     app: postgres
 spec:
@@ -176,6 +180,7 @@ metadata:
   labels:
     app: postgres
   name: postgres
+  namespace: default
 spec:
   selector:
     app: postgres
