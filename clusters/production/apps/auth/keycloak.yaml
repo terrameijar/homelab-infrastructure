@@ -19,13 +19,13 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: keycloak
-  name: postgres-headless
+    app: keycloak-postgres
+  name: keycloak-postgres-headless
   namespace: default
 spec:
   clusterIP: None
   selector:
-    app: postgres
+    app: keycloak-postgres
   ports:
     - protocol: TCP
       port: 5432
@@ -54,20 +54,20 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: quay.io/keycloak/keycloak:26.8.0
+          image: quay.io/keycloak/keycloak:20.0.5
           args: ["start"]
           env:
-            - name: KC_BOOTSTRAP_ADMIN_USERNAME
+            - name: KEYCLOAK_ADMIN
               value: "admin"
-            - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+            - name: KEYCLOAK_ADMIN_PASSWORD
               value: "admin"
             # In a production environment, add a TLS certificate to Keycloak to either end-to-end encrypt the traffic between
             # the client or Keycloak, or to encrypt the traffic between your proxy and Keycloak.
             # Respect the proxy headers forwarded by the reverse proxy
             # In a production environment, verify which proxy type you are using, and restrict access to Keycloak
             # from other sources than your proxy if you continue to use proxy headers.
-            - name: KC_PROXY_HEADERS
-              value: "xforwarded"
+            - name: KC_PROXY
+              value: "edge"
             - name: KC_HTTP_ENABLED
               value: "true"
             - name: KC_HOSTNAME
@@ -79,7 +79,7 @@ spec:
             - name: 'KC_DB_URL_DATABASE'
               value: 'keycloak'
             - name: 'KC_DB_URL_HOST'
-              value: 'postgres'
+              value: 'keycloak-postgres'
             - name: 'KC_DB'
               value: 'postgres'
             # In a production environment, use a secret to store username and password to the database
@@ -119,23 +119,23 @@ spec:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: keycloak-postgres
   namespace: default
   labels:
-    app: postgres
+    app: keycloak-postgres
 spec:
-  serviceName: postgres-headless
+  serviceName: keycloak-postgres-headless
   replicas: 1
   selector:
     matchLabels:
-      app: postgres
+      app: keycloak-postgres
   template:
     metadata:
       labels:
-        app: postgres
+        app: keycloak-postgres
     spec:
       containers:
-        - name: postgres
+        - name: keycloak-postgres
           image: mirror.gcr.io/postgres:17
           env:
             - name: POSTGRES_USER
@@ -161,11 +161,11 @@ spec:
               cpu: 1000m
               memory: 1Gi
           volumeMounts:
-            - name: postgres-data
+            - name: keycloak-postgres-data
               mountPath: /var/lib/postgresql/data
   volumeClaimTemplates:
     - metadata:
-        name: postgres-data
+        name: keycloak-postgres-data
       spec:
         accessModes:
           - ReadWriteOnce
@@ -178,12 +178,12 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: postgres
-  name: postgres
+    app: keycloak-postgres
+  name: keycloak-postgres
   namespace: default
 spec:
   selector:
-    app: postgres
+    app: keycloak-postgres
   ports:
     - protocol: TCP
       port: 5432

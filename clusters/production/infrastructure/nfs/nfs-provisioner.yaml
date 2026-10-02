@@ -15,6 +15,9 @@ metadata:
   name: nfs-provisioner-runner
 rules:
   - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
     resources: ["persistentvolumes", "persistentvolumeclaims", "events", "endpoints"]
     verbs: ["get", "list", "watch", "create", "delete", "patch", "update"]
   - apiGroups: ["storage.k8s.io"]
@@ -60,8 +63,15 @@ spec:
       serviceAccountName: nfs-provisioner
       containers:
         - name: nfs-provisioner
-          image: quay.io/external_storage/nfs-client-provisioner:latest
+          image: registry.k8s.io/sig-storage/nfs-subdir-external-provisioner:v4.0.2
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 250m
+              memory: 256Mi
           env:
             - name: PROVISIONER_NAME
               value: ndlovucloud.co.zw/nfs
