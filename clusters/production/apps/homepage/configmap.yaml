@@ -72,7 +72,7 @@ data:
             href: https://transformers.ndlovucloud.co.zw
             description: Transformers Database
             icon: https://transformers.ndlovucloud.co.zw/static/favicon.svg
-            ping: https://chatinsights.app
+            ping: transformers.ndlovucloud.co.zw
             statusStyle: basic
 
 
