@@ -214,6 +214,7 @@ metadata:
     gethomepage.dev/group: Cluster Management
     gethomepage.dev/icon: si-keycloak
     gethomepage.dev/description: Identity and access management
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "16k"
 spec:
   ingressClassName: nginx
   tls:
