@@ -208,6 +208,12 @@ kind: Ingress
 metadata:
   name: keycloak
   namespace: default
+  annotations:
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/name: Keycloak
+    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/icon: si-keycloak
+    gethomepage.dev/description: Identity and access management
 spec:
   ingressClassName: nginx
   tls:
