@@ -49,4 +49,5 @@ spec:
             gethomepage.dev/enabled: "true"
             gethomepage.dev/group: Cluster Management
             gethomepage.dev/name: Chat Insights
+            gethomepage.dev/pod-selector: "app=chat-insights"
             nginx.ingress.kubernetes.io/rewrite-target: /$1

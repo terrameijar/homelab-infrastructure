@@ -211,6 +211,7 @@ metadata:
   annotations:
     gethomepage.dev/enabled: "true"
     gethomepage.dev/name: Keycloak
+    gethomepage.dev/pod-selector: "app=keycloak"
     gethomepage.dev/group: Cluster Management
     gethomepage.dev/icon: si-keycloak
     gethomepage.dev/description: Identity and access management
