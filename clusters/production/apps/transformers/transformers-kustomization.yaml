@@ -15,17 +15,3 @@ spec:
   targetNamespace: default
   timeout: 3m0s
   wait: true
-  patches:
-    - patch: |-
-        apiVersion: networking.k8s.io/v1
-        kind: Ingress
-        metadata:
-          name: transformers-ingress
-          namespace: default
-          annotations:
-            gethomepage.dev/enabled: "true"
-            gethomepage.dev/name: Transformers
-            gethomepage.dev/description: Transformers Database
-            gethomepage.dev/group: Apps
-            gethomepage.dev/icon: https://transformers.ndlovucloud.co.zw/static/favicon.svg
-            gethomepage.dev/pod-selector: "app=transformers"

@@ -68,14 +68,6 @@ data:
 
     - Apps:
 
-        - Transformers:
-            href: https://transformers.ndlovucloud.co.zw
-            description: Transformers Database
-            icon: https://transformers.ndlovucloud.co.zw/static/favicon.svg
-            ping: https://transformers.ndlovucloud.co.zw
-            statusStyle: basic
-
-
         - Chat Insights:
             href: http://chatinsights.app
             ping: https://chatinsights.app
