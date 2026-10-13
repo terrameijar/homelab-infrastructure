@@ -24,7 +24,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: homepage
-          image: "ghcr.io/gethomepage/homepage:v0.10.9"
+          image: "ghcr.io/gethomepage/homepage:v1.2.0"
           resources:
             requests:
               memory: 128Mi
@@ -32,9 +32,15 @@ spec:
             limits:
               memory: 256Mi
               cpu: 200m
+          env:
+            - name: HOMEPAGE_ALLOWED_HOSTS
+              value: homepage.ndlovucloud.co.zw
           envFrom:
             - secretRef:
                 name: homepage-env-secret
+            - secretRef:
+                name: homepage-speedtest-env
+                optional: true
           imagePullPolicy: Always
           ports:
             - name: http

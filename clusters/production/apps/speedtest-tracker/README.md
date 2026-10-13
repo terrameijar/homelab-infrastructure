@@ -59,3 +59,58 @@ Official references:
 
 - [Container configuration](https://docs.linuxserver.io/images/docker-speedtest-tracker/)
 - [Application environment variables](https://docs.speedtest-tracker.dev/getting-started/environment-variables)
+
+## Homepage results widget
+
+The discovered ingress card displays the latest download speed, upload speed,
+and ping using widget version 2. Homepage connects through the internal Kubernetes
+Service. Its deployment is pinned to v1.2.0 for authenticated API support and
+allows the host `homepage.ndlovucloud.co.zw`.
+
+Create a read-only API token in Speedtest Tracker and store the token itself
+(plain text, not JSON) in a separate SSM SecureString parameter:
+
+`/K8s/Clusters/Prod/SpeedtestTracker/homepage-api-token`
+
+For example, with your AWS profile configured, run this in Bash or Zsh:
+
+```sh
+(
+  set -e
+  umask 077
+  token_file=$(mktemp)
+  trap 'rm -f "$token_file"' EXIT
+  python3 - "$token_file" <<'PY'
+import getpass
+import sys
+token = getpass.getpass("Speedtest Tracker read-only API token: ").strip()
+if not token:
+    raise SystemExit("Token is required.")
+with open(sys.argv[1], "w") as f:
+    f.write(token)
+PY
+  aws ssm put-parameter \
+    --region eu-west-1 \
+    --name /K8s/Clusters/Prod/SpeedtestTracker/homepage-api-token \
+    --type SecureString \
+    --value "file://$token_file"
+)
+```
+
+After Flux has applied the manifests, refresh the ExternalSecret and wait for it
+to synchronize before restarting Homepage to load the token:
+
+```sh
+kubectl --context homelab-prod -n default annotate externalsecret homepage-speedtest-env \
+  force-sync="$(date +%s)" --overwrite
+kubectl --context homelab-prod -n default wait \
+  --for=condition=Ready externalsecret/homepage-speedtest-env --timeout=120s
+kubectl --context homelab-prod -n default rollout restart deployment/homepage
+kubectl --context homelab-prod -n default rollout status deployment/homepage
+```
+
+The token secret is optional for pod startup, allowing Homepage to remain
+available before the token exists. The widget needs a valid token and at least
+one completed speed test. Restart Homepage after token rotation as well.
+
+- [Homepage Speedtest Tracker widget](https://gethomepage.dev/widgets/services/speedtest-tracker/)

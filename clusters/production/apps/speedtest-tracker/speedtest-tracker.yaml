@@ -109,6 +109,11 @@ metadata:
     gethomepage.dev/name: Speedtest Tracker
     gethomepage.dev/description: Internet speed and latency history
     gethomepage.dev/pod-selector: "app=speedtest-tracker"
+    gethomepage.dev/widget.type: speedtest
+    gethomepage.dev/widget.url: http://speedtest-tracker.default.svc.cluster.local
+    gethomepage.dev/widget.version: "2"
+    gethomepage.dev/widget.key: "{{HOMEPAGE_VAR_SPEEDTEST_API_KEY}}"
+    gethomepage.dev/widget.fields: '["download", "upload", "ping"]'
 spec:
   ingressClassName: nginx
   tls:
