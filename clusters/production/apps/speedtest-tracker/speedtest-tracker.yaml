@@ -104,7 +104,7 @@ metadata:
   namespace: default
   annotations:
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Cluster Management
+    gethomepage.dev/group: Monitoring
     gethomepage.dev/icon: speedtest-tracker.png
     gethomepage.dev/name: Speedtest Tracker
     gethomepage.dev/description: Internet speed and latency history
