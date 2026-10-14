@@ -13,7 +13,7 @@ All four claims use the existing `nfs` storage class, backed by
 | readeck-config-nfs | 1Gi | Generated configuration and persistent application secret key |
 | readeck-data | 5Gi | Saved article content and resources |
 | readeck-postgres | 2Gi | Dedicated PostgreSQL database |
-| readeck-redis | 1Gi | Persistent background queue, with Redis append-only logging |
+| readeck-redis | 1Gi | Background task data and progress, with Redis append-only logging |
 
 Readeck uses PostgreSQL rather than SQLite because SQLite on NFS is
 [explicitly unsupported](https://readeck.org/en/docs/configuration).
@@ -22,9 +22,10 @@ during updates. NFS-backed PostgreSQL requires reliable server-side locking,
 fsync, and durable writes; confirm these settings on the NAS. NFS availability
 is required for the application to run.
 
-The Redis worker backend keeps queued imports outside Readeck's process, so
-ordinary application restarts do not discard pending work. Redis append-only
-logging syncs every second. The generated NFS `config.toml` has
+The Redis worker backend persists task data and import progress outside the
+application process. Scheduling still happens inside Readeck, so interrupted
+imports can require cleanup and re-import; avoid redeploying during a bulk
+import. Redis append-only logging syncs every second. The generated NFS `config.toml` has
 `[extractor] workers = 4` to process imported articles concurrently.
 
 The NFS provisioner retains PVs when claims are deleted. Storage sizes are
