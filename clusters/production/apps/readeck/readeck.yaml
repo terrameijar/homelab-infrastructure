@@ -62,6 +62,8 @@ spec:
                   key: READECK_DATABASE_SOURCE
             - name: READECK_DATA_DIRECTORY
               value: /readeck/data
+            - name: READECK_WORKER_DSN
+              value: redis://readeck-redis:6379/0
             - name: TZ
               value: Africa/Harare
           resources:

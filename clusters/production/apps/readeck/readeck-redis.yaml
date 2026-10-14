@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readeck-redis
+  namespace: default
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readeck-redis
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: readeck-redis
+  template:
+    metadata:
+      labels:
+        app: readeck-redis
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: redis
+          image: redis:7.4.11-alpine
+          args: [redis-server, --appendonly, "yes", --appendfsync, everysec]
+          ports:
+            - name: redis
+              containerPort: 6379
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+          startupProbe:
+            exec:
+              command: [redis-cli, ping]
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            exec:
+              command: [redis-cli, ping]
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: [redis-cli, ping]
+            periodSeconds: 30
+          volumeMounts:
+            - name: queue
+              mountPath: /data
+      volumes:
+        - name: queue
+          persistentVolumeClaim:
+            claimName: readeck-redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readeck-redis
+  namespace: default
+spec:
+  selector:
+    app: readeck-redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
