@@ -45,15 +45,19 @@ spec:
             exec:
               command: [redis-cli, ping]
             periodSeconds: 5
+            timeoutSeconds: 5
             failureThreshold: 60
           readinessProbe:
             exec:
               command: [redis-cli, ping]
             periodSeconds: 10
+            timeoutSeconds: 5
           livenessProbe:
             exec:
               command: [redis-cli, ping]
             periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 6
           volumeMounts:
             - name: queue
               mountPath: /data

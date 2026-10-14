@@ -56,15 +56,19 @@ spec:
             exec:
               command: [psql, -U, readeck, -d, readeck, -tAc, "SELECT 1"]
             periodSeconds: 5
+            timeoutSeconds: 10
             failureThreshold: 60
           readinessProbe:
             exec:
               command: [psql, -U, readeck, -d, readeck, -tAc, "SELECT 1"]
             periodSeconds: 10
+            timeoutSeconds: 10
           livenessProbe:
             exec:
               command: [pg_isready, -U, readeck, -d, readeck]
             periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 6
           volumeMounts:
             - name: database
               mountPath: /var/lib/postgresql/data
