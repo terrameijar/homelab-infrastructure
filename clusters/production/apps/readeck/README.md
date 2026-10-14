@@ -96,6 +96,16 @@ label assignments. The original JSON export is retained privately at
 `/readeck/migration/wallabag-export-2026-10-14.json` on `readeck-config-nfs`,
 with its SHA-256 checked against the source.
 
+Processing finished for all 88 entries. Reader text is available for 78. The
+10 entries without reader text already contained retrieval errors in Wallabag;
+Readeck recovered 5 of the original 15 failed entries. All 73 entries with saved
+Wallabag content retained reader text. Text comparisons covered the substantial
+articles, and two reader HTML endpoints were checked through the TLS ingress.
+
+A native Readeck backup containing the account and all 88 bookmarks is stored
+privately at `/readeck/migration/readeck-after-wallabag-2026-10-14.zip` on NFS.
+The original export and pre-recovery PostgreSQL dumps were also retained.
+
 For future imports directly from Wallabag, create an API client in Wallabag's
 API clients page, then choose Wallabag in Readeck's import page. Supply your
 Wallabag username/password and the client ID/secret. Use the internal URL
