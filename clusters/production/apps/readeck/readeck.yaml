@@ -120,7 +120,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 50m
     nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
     gethomepage.dev/enabled: "true"
-    gethomepage.dev/group: Reading
+    gethomepage.dev/group: Apps
     gethomepage.dev/icon: readeck.png
     gethomepage.dev/name: Readeck
     gethomepage.dev/description: Saved articles and reading list
