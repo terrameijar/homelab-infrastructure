@@ -45,9 +45,12 @@ spec:
           name: chat-insights
           namespace: chat-insights
           annotations:
-            gethomepage.dev/description: Dynamically Detected Chat Insights
+            gethomepage.dev/description: Analyze WhatsApp conversations, activity, and message trends
             gethomepage.dev/enabled: "true"
-            gethomepage.dev/group: Cluster Management
+            gethomepage.dev/group: Apps
+            gethomepage.dev/href: https://chatinsights.app
+            gethomepage.dev/ping: https://chatinsights.app
+            gethomepage.dev/statusStyle: basic
             gethomepage.dev/name: Chat Insights
             gethomepage.dev/pod-selector: "app=chat-insights"
             nginx.ingress.kubernetes.io/rewrite-target: /$1

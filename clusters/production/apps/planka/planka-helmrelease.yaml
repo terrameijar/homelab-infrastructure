@@ -65,8 +65,8 @@ spec:
       annotations:
         cert-manager.io/cluster-issuer: cloudflare-letsencrypt-prod
         gethomepage.dev/enabled: "true"
-        gethomepage.dev/description: Dynamically Detected Planka
-        gethomepage.dev/group: Cluster Management
+        gethomepage.dev/description: Kanban boards for organizing projects and tasks
+        gethomepage.dev/group: Apps
         gethomepage.dev/name: Planka
       hosts:
         - host: planka.ndlovucloud.co.zw

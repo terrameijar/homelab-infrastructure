@@ -10,6 +10,7 @@ metadata:
     gethomepage.dev/description: Paperless-ngx
     gethomepage.dev/enabled: "true"
     gethomepage.dev/group: Apps
+    gethomepage.dev/icon: paperless-ngx.svg
     gethomepage.dev/name: Paperless-ngx
     gethomepage.dev/pod-selector: "app=paperless"
 spec:

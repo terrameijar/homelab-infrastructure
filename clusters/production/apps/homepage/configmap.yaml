@@ -66,13 +66,6 @@ data:
             description: Prod PgAdmin
             icon: pgadmin.png
 
-    - Apps:
-
-        - Chat Insights:
-            href: http://chatinsights.app
-            ping: https://chatinsights.app
-            statusStyle: basic
-
     - Top Services:
         - Cockpit:
             icon: cockpit.png
