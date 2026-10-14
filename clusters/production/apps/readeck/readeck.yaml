@@ -1,0 +1,142 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readeck-config-nfs
+  namespace: default
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readeck-data
+  namespace: default
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readeck
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: readeck
+  template:
+    metadata:
+      labels:
+        app: readeck
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: readeck
+          image: codeberg.org/readeck/readeck:0.23.4
+          ports:
+            - name: http
+              containerPort: 8000
+          env:
+            - name: READECK_SERVER_HOST
+              value: 0.0.0.0
+            - name: READECK_SERVER_PORT
+              value: "8000"
+            - name: READECK_SERVER_BASE_URL
+              value: https://readeck.ndlovucloud.co.zw
+            - name: READECK_ALLOWED_HOSTS
+              value: readeck.ndlovucloud.co.zw,localhost,127.0.0.1,readeck,readeck.default.svc.cluster.local
+            - name: READECK_DATABASE_SOURCE
+              valueFrom:
+                secretKeyRef:
+                  name: readeck-env
+                  key: READECK_DATABASE_SOURCE
+            - name: READECK_DATA_DIRECTORY
+              value: /readeck/data
+            - name: TZ
+              value: Africa/Harare
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          startupProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: http
+            periodSeconds: 30
+          volumeMounts:
+            - name: config
+              mountPath: /readeck
+            - name: data
+              mountPath: /readeck/data
+      volumes:
+        - name: config
+          persistentVolumeClaim:
+            claimName: readeck-config-nfs
+        - name: data
+          persistentVolumeClaim:
+            claimName: readeck-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readeck
+  namespace: default
+spec:
+  selector:
+    app: readeck
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: readeck
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    gethomepage.dev/enabled: "true"
+    gethomepage.dev/group: Reading
+    gethomepage.dev/icon: readeck.png
+    gethomepage.dev/name: Readeck
+    gethomepage.dev/description: Saved articles and reading list
+    gethomepage.dev/pod-selector: app=readeck
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - readeck.ndlovucloud.co.zw
+      secretName: readeck-prod-tls-secret
+  rules:
+    - host: readeck.ndlovucloud.co.zw
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: readeck
+                port:
+                  number: 80

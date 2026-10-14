@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: readeck-postgres
+  namespace: default
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readeck-postgres
+  namespace: default
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: readeck-postgres
+  template:
+    metadata:
+      labels:
+        app: readeck-postgres
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: postgres
+          image: postgres:17.10
+          env:
+            - name: POSTGRES_DB
+              value: readeck
+            - name: POSTGRES_USER
+              value: readeck
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: readeck-env
+                  key: POSTGRES_PASSWORD
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+          ports:
+            - name: postgres
+              containerPort: 5432
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              memory: 512Mi
+          startupProbe:
+            exec:
+              command: [psql, -U, readeck, -d, readeck, -tAc, "SELECT 1"]
+            periodSeconds: 5
+            failureThreshold: 60
+          readinessProbe:
+            exec:
+              command: [psql, -U, readeck, -d, readeck, -tAc, "SELECT 1"]
+            periodSeconds: 10
+          livenessProbe:
+            exec:
+              command: [pg_isready, -U, readeck, -d, readeck]
+            periodSeconds: 30
+          volumeMounts:
+            - name: database
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: database
+          persistentVolumeClaim:
+            claimName: readeck-postgres
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readeck-postgres
+  namespace: default
+spec:
+  selector:
+    app: readeck-postgres
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
