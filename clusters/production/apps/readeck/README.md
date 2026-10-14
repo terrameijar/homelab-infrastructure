@@ -63,17 +63,11 @@ The ingress uses the existing nginx controller and Cloudflare DNS-01 issuer.
 For LAN access, resolve `readeck.ndlovucloud.co.zw` to `192.168.100.11` in your
 local DNS or hosts file. A certificate does not create an application DNS record.
 
-The proxied CNAME points to Wallabag's existing Cloudflare Tunnel.
-For remote access, add a Cloudflare Tunnel public hostname:
-
-- Hostname: `readeck.ndlovucloud.co.zw`
-- Origin service: `https://192.168.100.11:443`
-- Origin server name and HTTP Host header: `readeck.ndlovucloud.co.zw`
-
-Use the same tunnel as Wallabag. Keep origin certificate verification enabled.
-The existing cert-manager Cloudflare token can edit DNS but cannot edit tunnel
-configuration. Disable Cloudflare Rocket Loader for Readeck, as required by
-its [deployment documentation](https://readeck.org/en/docs/deploy).
+Readeck is intended for private access. Its public Cloudflare CNAME was removed
+at the user's request; no Cloudflare Tunnel hostname route was configured.
+Use local DNS or a hosts entry for access. Cloudflare DNS-01 is used only for
+TLS certificate validation and does not require publishing an application
+DNS record.
 
 ## Wallabag migration
 
