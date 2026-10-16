@@ -1,0 +1,80 @@
+---
+# Static PV for paperless media on NFS using its own NAS subdirectory
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: paperless-media-nfs-pv
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 5Gi
+  nfs:
+    server: 192.168.100.2
+    path: /mnt/HDD/k8s-nfs/paperless/media
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  mountOptions:
+    - vers=4.1
+    - timeo=600
+    - retrans=2
+
+---
+# Static PV for paperless data on NFS using its own NAS subdirectory
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: paperless-data-nfs-pv
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 2Gi
+  nfs:
+    server: 192.168.100.2
+    path: /mnt/HDD/k8s-nfs/paperless/data
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: nfs
+  mountOptions:
+    - vers=4.1
+    - timeo=600
+    - retrans=2
+
+---
+# PVC for paperless media backed by NFS PV
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: paperless-media-nfs
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+  namespace: default
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 5Gi
+  volumeName: paperless-media-nfs-pv
+
+---
+# PVC for paperless data backed by NFS PV
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: paperless-data-nfs
+  annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
+  namespace: default
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: nfs
+  resources:
+    requests:
+      storage: 2Gi
+  volumeName: paperless-data-nfs-pv
+

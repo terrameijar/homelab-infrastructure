@@ -6,6 +6,8 @@ metadata:
   namespace: default
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: paperless
@@ -14,25 +16,17 @@ spec:
       labels:
         app: paperless
     spec:
-      affinity:
-        nodeAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              preference:
-                matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - media-center
+      nodeSelector:
+        kubernetes.io/hostname: hp635
       containers:
         - name: paperless
-          image: ghcr.io/paperless-ngx/paperless-ngx:latest
+          image: ghcr.io/paperless-ngx/paperless-ngx@sha256:5fa76604a81df6945086e0837b14b56543d137e8ce4f311cc5d9ebe907e74e79
           ports:
             - containerPort: 8000
           resources:
             requests:
               memory: "512Mi"
-              cpu: "500m"
+              cpu: "50m"
             limits:
               memory: "1024Mi"
               cpu: "1500m"
@@ -66,7 +60,7 @@ spec:
       volumes:
         - name: media
           persistentVolumeClaim:
-            claimName: paperless-media
+            claimName: paperless-media-nfs
         - name: data
           persistentVolumeClaim:
-            claimName: paperless-data
+            claimName: paperless-data-nfs
