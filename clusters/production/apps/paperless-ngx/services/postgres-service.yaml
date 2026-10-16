@@ -11,4 +11,4 @@ spec:
     - port: 5432
   clusterIP: None  # Headless service
   selector:
-    app: postgres
+    statefulset.kubernetes.io/pod-name: paperless-postgres-0
