@@ -77,4 +77,3 @@ spec:
     requests:
       storage: 2Gi
   volumeName: paperless-data-nfs-pv
-
