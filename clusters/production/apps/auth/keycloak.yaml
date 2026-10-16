@@ -41,7 +41,7 @@ metadata:
   labels:
     app: keycloak
 spec:
-  replicas: 1
+  # Replicas are managed manually with kubectl scale; Flux must not override them.
   strategy:
     type: Recreate
   selector:
